@@ -1,4 +1,4 @@
-import { Controller, Param, Get, Post, ParseIntPipe, Body, Headers, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Headers, HttpException, HttpStatus } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
