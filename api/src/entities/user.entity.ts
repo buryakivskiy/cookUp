@@ -1,0 +1,32 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity('User')
+export class UserEntity {
+  @PrimaryGeneratedColumn()
+  public readonly id: number;
+
+  @Column({
+    unique: true,
+    type: 'varchar',
+    length: 100,
+  })
+  public email: string;
+
+  @Column({
+    type: 'varchar',
+    length: 100,
+  })
+  public firstName: string;
+
+  @Column({
+    type: 'varchar',
+    length: 100,
+  })
+  public lastName: string;
+
+  @Column({ type: 'varchar' })
+  public passwordHash: string;
+
+  @Column({ type: 'timestamp with time zone' })
+  public readonly createdAt: Date;
+}
