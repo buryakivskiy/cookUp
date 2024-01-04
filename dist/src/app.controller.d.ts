@@ -1,11 +1,16 @@
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { ICreateUser } from './interfaces/create-user.interface';
+import { SignUpDto } from './dto/sign-up.dto';
+import { UserResponse } from './responses/user.response';
+import { LoginDto } from './dto/login.dto';
+import { JwtService } from '@nestjs/jwt';
+import { AuthResponse } from './responses/auth.response';
 export declare class AppController {
     private readonly userRepository;
-    constructor(userRepository: Repository<UserEntity>);
-    getById(id: number): Promise<UserEntity>;
+    private readonly jwtService;
+    constructor(userRepository: Repository<UserEntity>, jwtService: JwtService);
     hello(): Promise<string>;
-    post(): Promise<string>;
-    create(data: ICreateUser): Promise<UserEntity>;
+    create(body: SignUpDto): Promise<UserResponse>;
+    login(body: LoginDto): Promise<AuthResponse>;
+    userByToken(token: string): Promise<UserResponse>;
 }

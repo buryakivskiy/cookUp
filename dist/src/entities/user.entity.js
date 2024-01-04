@@ -44,7 +44,10 @@ __decorate([
     __metadata("design:type", String)
 ], UserEntity.prototype, "passwordHash", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'timestamp with time zone' }),
+    (0, typeorm_1.Column)({
+        type: 'timestamp with time zone',
+        default: () => 'CURRENT_TIMESTAMP',
+    }),
     __metadata("design:type", Date)
 ], UserEntity.prototype, "createdAt", void 0);
 UserEntity = __decorate([
