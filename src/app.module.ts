@@ -5,6 +5,7 @@ import { TypeormConfig } from './config/typeorm/typeorm.config';
 import { UserEntity } from './entities/user.entity';
 import { AppController } from './app.controller';
 import { JwtModule } from '@nestjs/jwt';
+import { RecipeEntity } from './entities/recipe.entity';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
       imports: [ConfigModule],
       useClass: TypeormConfig,
     }),
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, RecipeEntity]),
     JwtModule.register({
       secret: 'secret',
       signOptions: { expiresIn: '1d' },

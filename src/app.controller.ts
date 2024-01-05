@@ -8,12 +8,16 @@ import { UserResponse } from './responses/user.response';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AuthResponse } from './responses/auth.response';
+import { RecipesResponse } from './responses/recipes.response';
+import { RecipeEntity } from './entities/recipe.entity';
 
 @Controller()
 export class AppController {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(RecipeEntity)
+    private readonly recipeRepository: Repository<RecipeEntity>,
     private readonly jwtService: JwtService,
   ) {}
   
@@ -122,5 +126,19 @@ export class AppController {
     } catch (e) {
       throw new HttpException("Invalid token!", HttpStatus.BAD_REQUEST);
     }
+  }
+
+
+
+
+  ///////////////////////////////////////////
+  //                RECIPE                 //
+  ///////////////////////////////////////////
+
+  @Get('/recipes')
+  public async getRecipes(): Promise<RecipesResponse> {
+    const recipes = await this.recipeRepository.find();
+
+    return new RecipesResponse(recipes);
   }
 }
