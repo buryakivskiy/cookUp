@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Headers, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Headers, HttpException, HttpStatus, Delete } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,7 +18,7 @@ export class AppController {
   ) {}
   
   @Get('/hello')
-  async hello(): Promise<string> {
+  async hello() {
     return "Hello World!";
   }
 
@@ -92,6 +92,31 @@ export class AppController {
       if (!user) {
         throw new Error();
       }
+
+      return new UserResponse(user);
+    } catch (e) {
+      throw new HttpException("Invalid token!", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Delete('/user')
+  public async deleteUser(
+    @Headers('token') token: string,
+  ): Promise<UserResponse> {
+    try {
+      const data = await this.jwtService.verifyAsync(token);
+
+      const user = await this.userRepository.findOne({ 
+        where: { 
+          id: data['id'], 
+        } 
+      });
+
+      if (!user) {
+        throw new Error();
+      }
+
+      await this.userRepository.delete({ id: user.id });
 
       return new UserResponse(user);
     } catch (e) {
